@@ -33,3 +33,4 @@ Creare un sistema per aggiungere nuovi film alla lista tramite un form.
 SUPER BONUS:
 
 Fare in modo che la lista di generi sia dinamica, utilizzare la struttura dati set.
+Dividere il progetto in componenti.

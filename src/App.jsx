@@ -15,6 +15,8 @@ function App() {
   const [filteredList, setFilteredList] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [movie, setMovie] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [newGenre, setNewGenre] = useState("");
 
 
   useEffect(() => {
@@ -31,6 +33,18 @@ function App() {
     setFilteredList(newList)
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    //dobbiamo fare in modo che la lista di film venga aggiornata con i dati del film aggiunto
+    const newMovie = {
+      title: newTitle,
+      genre: newGenre
+    }
+    setMovieList([...movieList, newMovie])
+    setNewGenre("");
+    setNewTitle("");
+  }
+
   return (
     <>
       <div className="container">
@@ -40,7 +54,7 @@ function App() {
         <div className="mb-3">
           <label htmlFor="genres" className="form-label">Genre</label>
           <select
-            className="form-select form-select-lg"
+            className="form-select form-select-lg border-secondary-subtle"
             name="genres"
             id="genres"
             onChange={(e) => setSelectedGenre(e.target.value)}
@@ -55,14 +69,27 @@ function App() {
         </div>
 
 
-        <input type="text" className="form-control my-3" value={movie} placeholder="Search movie" onChange={(e) => handleSearch(e.target.value)} />
+        <input type="text" className="form-control my-3 border-secondary-subtle" value={movie} placeholder="Search movie" onChange={(e) => handleSearch(e.target.value)} />
 
 
-        <ul>
+        <ul className=" list-group">
           {filteredList.map((movie) => (
-            <li key={movie.title}>{movie.title}</li>
+            <li key={movie.title} className=" list-group-item border-secondary-subtle">{movie.title}</li>
           ))}
         </ul>
+
+        <form className="mt-5 text-center" onSubmit={handleSubmit}>
+          <h3 className=" text-start">Add new movie</h3>
+          <input type="text" className="form-control my-3 border-secondary-subtle"
+            placeholder="Type new movie's title... "
+            value={newTitle}
+            onChange={e => setNewTitle(e.target.value)} />
+          <input type="text" className="form-control  border-secondary-subtle"
+            placeholder="Type new movie's genre... "
+            value={newGenre}
+            onChange={e => setNewGenre(e.target.value)} />
+          <button type="submit" className=" btn btn-info mt-3">Upload new movie</button>
+        </form>
 
       </div>
 
