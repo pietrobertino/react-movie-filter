@@ -14,6 +14,7 @@ function App() {
   const [movieList, setMovieList] = useState(movies);
   const [filteredList, setFilteredList] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("");
+  const [movie, setMovie] = useState("");
 
 
   useEffect(() => {
@@ -22,6 +23,13 @@ function App() {
     setFilteredList(newList)
 
   }, [movieList, selectedGenre])
+
+  function handleSearch(input) {
+    setMovie(input)
+    //dobbiamo fare in modo da prendere quest'input e usarlo per cercare tra i titoli dell'array, e quindi filtrare la lista
+    const newList = movieList.filter((film) => film.title.toLowerCase().includes(input.toLowerCase()))
+    setFilteredList(newList)
+  }
 
   return (
     <>
@@ -45,6 +53,10 @@ function App() {
             <option value="azione">Azione</option>
           </select>
         </div>
+
+
+        <input type="text" className="form-control my-3" value={movie} placeholder="Search movie" onChange={(e) => handleSearch(e.target.value)} />
+
 
         <ul>
           {filteredList.map((movie) => (
