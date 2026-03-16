@@ -17,14 +17,22 @@ function App() {
   const [movie, setMovie] = useState("");
   const [newTitle, setNewTitle] = useState("");
   const [newGenre, setNewGenre] = useState("");
+  const [genreSet, setGenreSet] = useState([]);
 
 
   useEffect(() => {
     //dobbiamo fare in modo che a seconda del filtro scelto, la filtered list cambi
-    const newList = movieList.filter((movie) => movie.genre.toLowerCase().includes(selectedGenre))
+    const newList = movieList.filter((movie) => movie.genre.toLowerCase().includes(selectedGenre.toLowerCase()))
     setFilteredList(newList)
 
   }, [movieList, selectedGenre])
+
+
+  useEffect(() => {
+    const newGenreSet = new Set();
+    movieList.forEach(film => newGenreSet.add(film.genre))
+    setGenreSet([...newGenreSet])
+  }, [movieList])
 
   function handleSearch(input) {
     setMovie(input)
@@ -45,6 +53,8 @@ function App() {
     setNewTitle("");
   }
 
+
+
   return (
     <>
       <div className="container">
@@ -61,10 +71,10 @@ function App() {
           >
             {/* dobbiamo capire come fare in modo che le opzioni siano collegate con selectedGenre */}
             <option value="">Tutti i film</option>
-            <option value="fantascienza">Fantascienza</option>
-            <option value="thriller">Thriller</option>
-            <option value="romantico">Romantico</option>
-            <option value="azione">Azione</option>
+            {/* creare un option per ogni genere nella lista movieList, che essendo una variabile reattiva aggiornerà automaticamente gli elementi */}
+            {genreSet.map(genre => (
+              <option key={genre} value={genre}>{genre}</option>
+            ))}
           </select>
         </div>
 
