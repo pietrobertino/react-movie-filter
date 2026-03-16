@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react"
+import AppSelectGenre from "./assets/components/AppSelectGenre";
+import AppSearchBar from "./assets/components/AppSearchBar";
+import AppMovieList from "./assets/components/AppMovieList";
+import AppMovieAdder from "./assets/components/AppMovieAdder";
 
 const movies = [
   { title: 'Inception', genre: 'Fantascienza' },
@@ -61,45 +65,13 @@ function App() {
 
         <h1 className=" text-center py-3">Movie list</h1>
 
-        <div className="mb-3">
-          <label htmlFor="genres" className="form-label">Genre</label>
-          <select
-            className="form-select form-select-lg border-secondary-subtle"
-            name="genres"
-            id="genres"
-            onChange={(e) => setSelectedGenre(e.target.value)}
-          >
-            {/* dobbiamo capire come fare in modo che le opzioni siano collegate con selectedGenre */}
-            <option value="">Tutti i film</option>
-            {/* creare un option per ogni genere nella lista movieList, che essendo una variabile reattiva aggiornerà automaticamente gli elementi */}
-            {genreSet.map(genre => (
-              <option key={genre} value={genre}>{genre}</option>
-            ))}
-          </select>
-        </div>
+        <AppSelectGenre setSelectedGenre={setSelectedGenre} genreSet={genreSet} />
 
+        <AppSearchBar movie={movie} handleSearch={handleSearch} />
 
-        <input type="text" className="form-control my-3 border-secondary-subtle" value={movie} placeholder="Search movie" onChange={(e) => handleSearch(e.target.value)} />
+        <AppMovieList filteredList={filteredList} />
 
-
-        <ul className=" list-group">
-          {filteredList.map((movie) => (
-            <li key={movie.title} className=" list-group-item border-secondary-subtle">{movie.title}</li>
-          ))}
-        </ul>
-
-        <form className="mt-5 text-center" onSubmit={handleSubmit}>
-          <h3 className=" text-start">Add new movie</h3>
-          <input type="text" className="form-control my-3 border-secondary-subtle"
-            placeholder="Type new movie's title... "
-            value={newTitle}
-            onChange={e => setNewTitle(e.target.value)} />
-          <input type="text" className="form-control  border-secondary-subtle"
-            placeholder="Type new movie's genre... "
-            value={newGenre}
-            onChange={e => setNewGenre(e.target.value)} />
-          <button type="submit" className=" btn btn-info mt-3">Upload new movie</button>
-        </form>
+        <AppMovieAdder handleSubmit={handleSubmit} newTitle={newTitle} setNewTitle={setNewTitle} newGenre={newGenre} setNewGenre={setNewGenre} />
 
       </div>
 
